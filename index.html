@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Pet - Banho e Tosa Especializado</title>
+    <meta name="description" content="Mundo Pet - Banho e tosa especializado para todos os tamanhos e tipos de pelo. Cuidado profissional para seu pet.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: { 
+                    colors: {
+                        primary: "#2D5B7C", 
+                        secondary: "#F8A531", 
+                        accent: "#4A8B5C" 
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'] 
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body class="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded-lg z-50">
+        Pular para o conteúdo principal
+    </a>
+
+    <div class="bg-primary text-white py-2 px-4">
+        <div class="container mx-auto flex justify-end space-x-4 text-sm">
+            <button id="font-increase" class="hover:text-secondary focus:outline-none focus:ring-2 focus:ring-secondary rounded px-2" aria-label="Aumentar tamanho da fonte"> 
+                <i class="fas fa-text-height mr-1"></i>A+
+            </button>
+            <button id="font-decrease" class="hover:text-secondary focus:outline-none focus:ring-2 focus:ring-secondary rounded px-2" aria-label="Diminuir tamanho da fonte"> 
+                <i class="fas fa-text-height mr-1"></i>A-
+            </button>
+            <button id="high-contrast" class="hover:text-secondary focus:outline-none focus:ring-2 focus:ring-secondary rounded px-2" aria-label="Alternar alto contraste"> 
+                <i class="fas fa-adjust mr-1"></i>Contraste
+            </button>
+            <button id="dark-mode-toggle" class="hover:text-secondary focus:outline-none focus:ring-2 focus:ring-secondary rounded px-2" aria-label="Alternar modo escuro"> 
+                <i class="fas fa-moon mr-1" id="dark-mode-icon"></i><span id="dark-mode-text">Escuro</span>
+            </button>
+        </div>
+    </div>
+
+    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-40">
+        <nav class="container mx-auto px-4 py-4" aria-label="Navegação principal">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-primary hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded"> 
+                        <i class="fas fa-paw mr-2"></i>Mundo Pet 
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    
+                    <form class="relative hidden md:block" onsubmit="event.preventDefault()">
+                        <input type="search" id="desktop-search-input" placeholder="Buscar serviços..." aria-label="Buscar serviços" class="w-80 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        <button type="submit" class="absolute right-0 top-0 mt-1 mr-3 text-gray-500 hover:text-primary focus:outline-none" aria-label="Pesquisar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    
+                    <a href="#servicos" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-1"> 
+                        Serviços
+                    </a>
+                    <a href="#tamanhos" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-1"> 
+                        Tamanhos
+                    </a>
+                    <a href="#pelos" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-1"> 
+                        Tipos de Pelo
+                    </a>
+                    <a href="#avaliacoes" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-1"> 
+                        Avaliações
+                    </a>
+                    <a href="#agendamento" class="bg-secondary text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50"> 
+                        Agendar Banho
+                    </a>
+                </div>
+
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-secondary rounded p-2" aria-label="Abrir menu" aria-expanded="false"> 
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+                
+                <div class="px-4 py-2">
+                    <form class="relative" onsubmit="event.preventDefault()">
+                        <input type="search" id="mobile-search-input" placeholder="Buscar serviços..." aria-label="Buscar serviços no menu mobile" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        <button type="submit" class="absolute right-0 top-0 mt-3 mr-3 text-gray-500 hover:text-primary p-1 focus:outline-none" aria-label="Pesquisar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="flex flex-col space-y-3 mt-4">
+                    <a href="#servicos" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-2">
+                        Serviços
+                    </a>
+                    <a href="#tamanhos" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-2"> 
+                        Tamanhos
+                    </a>
+                    <a href="#pelos" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-2"> 
+                        Tipos de Pelo
+                    </a>
+                    <a href="#avaliacoes" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-3 py-2"> 
+                        Avaliações
+                    </a>
+                    <a href="#agendamento" class="bg-secondary text-white px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50 text-center">
+                        Agendar Banho
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main id="main-content">
+       
+        <section class="bg-gradient-to-r from-primary to-accent text-white py-20"> 
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                        Banho e 
+                        Tosa Especializado 
+                    </h1>
+                    <p class="text-xl mb-8 opacity-90">
+                        Cuidado profissional para seu pet. 
+                        Especialistas em todos os tamanhos e tipos de pelo. 
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#agendamento" class="bg-secondary text-white px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50 text-center">
+                            Agendar 
+                            Agora
+                        </a>
+                        <a href="#servicos" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:bg-opacity-10 transition-all focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-50 text-center">
+                            Conhecer Serviços
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicos" class="py-16 bg-white dark:bg-gray-900 relative"> 
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-primary dark:text-secondary mb-12">Nossos Serviços</h2> 
+                
+                <button id="nav-left-servicos" class="hidden md:block absolute left-4 lg:left-8 top-1/2 transform -translate-y-1/2 z-30 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-4 focus:ring-primary/50" aria-label="Rolar para a esquerda">
+                    <i class="fas fa-chevron-left text-2xl text-primary dark:text-secondary"></i>
+                </button>
+
+                <div id="servicos-carousel" class="flex overflow-x-scroll snap-x snap-mandatory space-x-6 pb-4 scroll-smooth carousel-container">
+                    
+                    <div class="service-card flex-shrink-0 w-80 snap-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-primary bg-opacity-10 dark:bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGIGJxND66y6mZTl9BDOzHa12O5ae_7Jm08w&s"
+                                alt="tosa higienica"> 
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Banho Completo</h3> 
+                            <p class="text-gray-600 dark:text-gray-400">Limpeza profunda com produtos específicos para o tipo de pelo do seu pet</p> 
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-6">
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Shampoo especializado
+                            </li>
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Condicionador
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Secagem adequada 
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Limpeza de ouvidos
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <span class="text-2xl font-bold text-primary dark:text-secondary">A partir de R$ 45</span> 
+                        </div>
+                    </div>
+
+                    <div class="service-card flex-shrink-0 w-80 snap-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-secondary bg-opacity-10 dark:bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4"> 
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://i.pinimg.com/originals/78/66/f3/7866f351daf586bc9639234c0fb679a6.jpg"
+                                alt="tosa higienica">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Tosa Higiênica</h3> 
+                            <p class="text-gray-600 dark:text-gray-400">Corte específico para áreas sensíveis, garantindo higiene e conforto</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-6"> 
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Área genital 
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Patas e almofadas
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Rosto e olhos
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Limpeza de glândulas
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <span class="text-2xl font-bold text-primary dark:text-secondary">A partir de R$ 35</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card flex-shrink-0 w-80 snap-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-accent bg-opacity-10 dark:bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://jardimfranca.vet.br/wp-content/uploads/2019/06/08022018094931_tempo-tosa.jpg"
+                                alt="tosa higienica">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Tosa Estética</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Corte profissional seguindo padrões da raça ou estilo personalizado</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-6">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Corte por raça
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Estilo personalizado
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Acabamento perfeito
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Consulta de estilo
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <span class="text-2xl font-bold text-primary dark:text-secondary">A partir de R$ 60</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card flex-shrink-0 w-80 snap-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-primary bg-opacity-10 dark:bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR06Xm2H5Xii1FXncHU1auADgZn3bEV3TpF8w&s"
+                                alt="unhas cachorro">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Spa Pet</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Experiência completa de relaxamento e cuidados especiais</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-6">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Banho terapêutico
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Massagem relaxante
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Hidratação profunda
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Aromaterapia
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <span class="text-2xl font-bold text-primary dark:text-secondary">A partir de R$ 120</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card flex-shrink-0 w-80 snap-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-secondary bg-opacity-10 dark:bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://s2-vidadebicho.glbimg.com/utNA_PIdnbKIZ0QhMuw-2Tbc_qk=/0x0:1500x968/600x0/smart/filters:gifv():strip_icc()/i.s3.glbimg.com/v1/AUTH_fb623579cd474803aedbbbbae014af68/internal_photos/bs/2023/1/d/s1rcXJSpW3uuVypbRLjQ/como-cortar-as-unhas-do-cachorro-em-casa-veja-o-passo-a-passo.png"
+                                alt="unhas cachorro">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Corte de Unhas</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Corte seguro e preciso com equipamento profissional</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-6">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Corte preciso
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Sem dor ou desconforto
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Lixamento opcional
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Cuidado com vasos
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <span class="text-2xl font-bold text-primary dark:text-secondary">A partir de R$ 25</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card flex-shrink-0 w-80 snap-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-accent bg-opacity-10 dark:bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://wevets.com.br/wp-content/uploads/2025/04/limpeza-de-tartaro-em-cachorro.png"
+                                alt="unhas cachorro">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Limpeza Dental</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Cuidados odontológicos para manter a saúde bucal do seu pet</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-6">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Remoção de tártaro
+                            </li>
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Limpeza completa
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Aplicação de flúor
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Inspeção dental
+                            </li>
+                        </ul>
+                        <div class="text-center">
+                            <span class="text-2xl font-bold text-primary dark:text-secondary">A partir de R$ 80</span>
+                        </div>
+                    </div>
+                </div> <button id="nav-right-servicos" class="hidden md:block absolute right-4 lg:right-8 top-1/2 transform -translate-y-1/2 z-30 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-4 focus:ring-primary/50" aria-label="Rolar para a direita">
+                    <i class="fas fa-chevron-right text-2xl text-primary dark:text-secondary"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="tamanhos" class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-primary dark:text-secondary mb-12">Serviços por Tamanho do Pet</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 bg-primary bg-opacity-10 dark:bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <img class="w-full h-full object-cover rounded-full"
+                                    src="https://conteudo.imguol.com.br/c/entretenimento/eb/2022/03/23/cachorro-da-raca-lulu-da-pomeramia-1648065976007_v2_4x3.jpg"
+                                    alt="Cachorro da raça Lulu da Pomerânia">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Mini</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Até 5kg</p>
+                            <p class="text-lg font-bold text-secondary mt-2">Banho: R$ 45</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Tosa higiênica: R$ 35
+                            </li>
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Tosa estética: R$ 60
+                            </li>
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Corte de unhas: R$ 25 
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow dark:hover:shadow-secondary/50"> 
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 bg-secondary bg-opacity-10 dark:bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-3"> 
+                                <img class="w-full h-full object-cover rounded-full"
+                                    src="https://doogspet.com/wp-content/uploads/freepik_edit-11-1.jpg"
+                                    alt="Cachorro da Dachshund">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Pequeno</h3>
+                            <p class="text-gray-600 dark:text-gray-400">5kg - 10kg</p> 
+                            <p class="text-lg font-bold text-secondary mt-2">Banho: R$ 55</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Tosa higiênica: R$ 40 
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Tosa estética: R$ 70
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Corte de unhas: R$ 25
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow dark:hover:shadow-secondary/50">
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 bg-accent bg-opacity-10 dark:bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://agron.com.br/wp-content/uploads/2025/09/Beagle-5-segredos-sobre-seu-instinto-cacador.webp"
+                                alt="Cachorro da Beagle">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Médio</h3>
+                            <p class="text-gray-600 dark:text-gray-400">10kg - 25kg</p>
+                            <p class="text-lg font-bold text-secondary mt-2">Banho: R$ 65</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Tosa higiênica: R$ 45
+                            </li>
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Tosa estética: R$ 80
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Corte de unhas: R$ 30
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow dark:hover:shadow-secondary/50"> 
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 bg-primary bg-opacity-20 dark:bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-3"> 
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://www.racoesreis.com.br/wordpress/wp-content/uploads/imagem_do_post-30.jpg"
+                                alt="Cachorro da raça Doberman">
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-2">Grande</h3> 
+                            <p class="text-gray-600 dark:text-gray-400">Acima de 25kg</p>
+                            <p class="text-lg font-bold text-secondary mt-2">Banho: R$ 75</p>
+                        </div>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2"> 
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Tosa higiênica: R$ 50 
+                            </li>
+                            <li class="flex items-center">                     
+                                <i class="fas fa-check text-accent mr-2"></i> 
+                                Tosa estética: R$ 90
+                            </li>
+                            <li class="flex items-center"> 
+                                <i class="fas fa-check text-accent mr-2"></i>
+                                Corte de unhas: R$ 35                      
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pelos" class="py-16 bg-white dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-primary dark:text-secondary mb-12">Cuidados por Tipo de Pelo</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+               
+                    <div class="text-center"> 
+                        <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-8 mb-4 hover:bg-primary hover:bg-opacity-5 dark:hover:bg-gray-700 transition-all">
+                            <div class="w-24 h-24 bg-white dark:bg-gray-900 rounded-full shadow-md flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://www.purina.pt/sites/default/files/styles/ttt_image_510/public/2024-01/sitesdefaultfilesstylessquare_medium_440x440public2022-07Chihuahua-Smooth-Coat.jpg?itok=bKDUJJsI"
+                                alt="pelo curto">  
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">Pelo Curto</h3>      
+                            <div class="text-left space-y-3"> 
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm">
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Banho</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Shampoo específico para pelagem curta, secagem suave</p> 
+                                </div>                        
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm"> 
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Tosa</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Manutenção simples, foco na higiene e conforto</p>     
+                                </div>
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm">
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Cuidados</h4> 
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Escovação semanal, controle de queda</p>
+                                </div>                        
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-8 mb-4 hover:bg-secondary hover:bg-opacity-5 dark:hover:bg-gray-700 transition-all"> 
+                            <div class="w-24 h-24 bg-white dark:bg-gray-900 rounded-full shadow-md flex items-center justify-center mx-auto mb-4">
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://portaledicase.com/wp-content/uploads/2023/02/Border-collie--1024x683.jpg"
+                                alt="Pelo medio">     
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">Pelo Médio</h3>
+                            <div class="text-left space-y-3">             
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm"> 
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Banho</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Shampoo e condicionador para pelagem semilonga</p> 
+                                </div>
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm">
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Tosa</h4> 
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Manutenção regular, controle de volume</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm"> 
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Cuidados</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Escovação 2-3 vezes por semana</p>
+                                </div>
+                            </div>
+                        </div>             
+                    </div>
+
+                    <div class="text-center"> 
+                        <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-8 mb-4 hover:bg-accent hover:bg-opacity-5 dark:hover:bg-gray-700 transition-all">
+                            <div class="w-24 h-24 bg-white dark:bg-gray-900 rounded-full shadow-md flex items-center justify-center mx-auto mb-4"> 
+                                <img class="w-full h-full object-cover rounded-full"
+                                src="https://animaliafarma.com.br/wp-content/uploads/shih-tzu.jpg"
+                                alt="pelo longo"> 
+                            </div>
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">Pelo Longo</h3> 
+                            <div class="text-left space-y-3">
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm">
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Banho</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Produtos antiembaraçantes, hidratação profunda</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm"> 
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Tosa</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Cuidados especiais, prevenção de nós</p> 
+                                </div>
+                                <div class="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm">
+                                    <h4 class="font-semibold text-primary dark:text-secondary mb-2">Cuidados</h4> 
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Escovação diária, produtos específicos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="avaliacoes" class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-primary dark:text-secondary mb-12"> Nossas Avaliações</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <span class="text-gray-500 dark:text-gray-400 ml-2 text-sm">5.0</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 italic mb-4">
+                                "O banho do meu Poodle foi impecável! Ele voltou super cheiroso e com os pelos macios. O atendimento é sempre muito atencioso."
+                            </p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                                A
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary dark:text-white">Ana Lúcia</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Tutor(a) do Poodle, 5 anos</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star-half-alt text-secondary"></i>
+                                <span class="text-gray-500 dark:text-gray-400 ml-2 text-sm">4.5</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 italic mb-4">
+                                "Fizemos a tosa higiênica e a equipe foi muito paciente com meu cão que é um pouco agitado. Ótimo trabalho e profissionalismo."
+                            </p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                                M
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary dark:text-white">Marcos V.</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Tutor(a) do Beagle, 3 anos</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <i class="fas fa-star text-secondary"></i>
+                                <span class="text-gray-500 dark:text-gray-400 ml-2 text-sm">5.0</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 italic mb-4">
+                                "O Spa Pet é incrível! Meu gato voltou relaxado e com um brilho no pelo que nunca vi antes. Vale cada centavo investido no bem-estar dele."
+                            </p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                                C
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary dark:text-white">Carla S.</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Tutor(a) do Gato Persa, 7 anos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="agendamento" class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden">
+                    <div class="md:flex">
+                        <div class="md:w-1/2 p-8">
+                            <h2 class="text-3xl font-bold text-primary dark:text-secondary mb-6">Agende Seu Horário</h2>
+                            <form class="space-y-4">
+                                <div> 
+                                    <label for="nome" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome do Tutor</label>
+                                    <input 
+                                        type="text" 
+                                        id="nome" 
+                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"  
+                                        placeholder="Seu nome completo"
+                                        required
+                                    >
+                                </div>                      
+                                <div> 
+                                    <label for="telefone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telefone</label>
+                                    <input 
+                                        type="tel" 
+                                        id="telefone"  
+                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"
+                                        placeholder="(11) 99999-9999"  
+                                        required
+                                    >
+                                </div>
+                                
+                                <div> 
+                                    <label for="pet" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome do Pet</label>
+                                    <input 
+                                        type="text" 
+                                        id="pet"  
+                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"
+                                        placeholder="Nome do seu pet" 
+                                        required
+                                    >
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4"> 
+                                    <div>
+                                        <label for="tamanho" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tamanho</label>
+                                        <select 
+                                            id="tamanho" 
+                                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"  
+                                            required
+                                        >
+                                            <option value="">Selecione</option>
+                                            <option value="mini">Mini</option> 
+                                            <option value="pequeno">Pequeno</option>
+                                            <option value="medio">Médio</option>
+                                            <option value="grande">Grande</option> 
+                                        </select>
+                                    </div>
+                                    
+                                    <div> 
+                                        <label for="pelo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Pelo</label>
+                                        <select 
+                                            id="pelo"  
+                                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"
+                                            required 
+                                        >
+                                            <option value="">Selecione</option> 
+                                            <option value="curto">Curto</option>
+                                            <option value="medio">Médio</option>
+                                            <option value="longo">Longo</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div> 
+                                    <label for="servico" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Serviço</label>
+                                    <select 
+                                        id="servico"  
+                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"
+                                        required 
+                                    >
+                                        <option value="">Selecione o serviço</option> 
+                                        <option value="banho">Banho Completo</option>
+                                        <option value="tosa_higienica">Tosa Higiênica</option>
+                                        <option value="tosa_estetica">Tosa Estética</option> 
+                                        <option value="spa">Spa Pet</option>
+                                        <option value="unhas">Corte de Unhas</option> 
+                                        <option value="dental">Limpeza Dental</option>
+                                        <option value="combo">Combo Completo</option>
+                                    </select>
+                                </div>
+                                
+                                <div> 
+                                    <label for="data" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Data Preferencial</label>
+                                    <input 
+                                        type="date" 
+                                        id="data" 
+                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"  
+                                        required
+                                    >
+                                </div>
+                                
+                                <button 
+                                    type="submit"  
+                                    class="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition-all focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50"
+                                >
+                                    Agendar Horário
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="md:w-1/2 bg-primary dark:bg-primary/80 text-white p-8">
+                            <h3 class="text-2xl font-bold mb-6">Por que escolher a Mundo Pet?</h3>
+                            
+                            <div class="space-y-4"> 
+                                <div class="flex items-start">
+                                    <i class="fas fa-shield-alt text-secondary text-xl mt-1 mr-4"></i>
+                                    <div> 
+                                        <h4 class="font-semibold text-lg mb-1">Profissionais Qualificados</h4>
+                                        <p class="text-white text-opacity-90">Nossa equipe é especializada em diferentes raças e tipos de pelo</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start"> 
+                                    <i class="fas fa-heart text-secondary text-xl mt-1 mr-4"></i> 
+                                    <div>
+                                        <h4 class="font-semibold text-lg mb-1">Amor e Cuidado</h4>
+                                        <p class="text-white text-opacity-90">Tratamos cada pet com carinho e atenção individualizada</p> 
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start"> 
+                                    <i class="fas fa-star text-secondary text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <h4 class="font-semibold text-lg mb-1">Produtos Premium</h4>
+                                        <p class="text-white text-opacity-90">Utilizamos apenas produtos de alta qualidade e hipoalergênicos</p> 
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start"> 
+                                    <i class="fas fa-clock text-secondary text-xl mt-1 mr-4"></i> 
+                                    <div>
+                                        <h4 class="font-semibold text-lg mb-1">Horários Flexíveis</h4>
+                                        <p class="text-white text-opacity-90">Atendemos de segunda a sábado, com horários que se adequam à sua rotina</p> 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 p-4 bg-white bg-opacity-10 rounded-lg"> 
+                                <h4 class="font-semibold text-lg mb-2">Horário de Funcionamento</h4>
+                                <p class="text-white text-opacity-90">Segunda a Sexta: 8h às 19h</p>
+                                <p class="text-white text-opacity-90">Sábados: 8h às 17h</p> 
+                                <p class="text-white text-opacity-90">Domingos: 9h às 13h</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="deixe-sua-avaliacao" class="py-16 bg-white dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="max-w-xl mx-auto bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold text-secondary mb-6">Deixe Sua Avaliação!</h3>
+                    <form id="review-form" class="space-y-4" action="#" method="POST">
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Sua opinião é muito importante para continuarmos a oferecer o melhor serviço.</p>
+                        
+                        <div>
+                            <label for="review_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Seu Nome</label>
+                            <input 
+                                type="text" 
+                                id="review_name" 
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"  
+                                placeholder="Seu nome"
+                                required
+                            >
+                        </div>
+                        
+                        <div>
+                            <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nota (1 a 5 estrelas)</label>
+                            <div class="flex space-x-1" id="star-rating">
+                                <input type="radio" id="star5" name="rating" value="1" class="sr-only" required>
+                                <label for="star5" class="text-2xl cursor-pointer text-gray-300 hover:text-secondary transition-colors" aria-label="1 estrelas">
+                                    <i class="fas fa-star"></i>
+                                </label>
+                                <input type="radio" id="star4" name="rating" value="2" class="sr-only">
+                                <label for="star4" class="text-2xl cursor-pointer text-gray-300 hover:text-secondary transition-colors" aria-label="2 estrelas">
+                                    <i class="fas fa-star"></i>
+                                </label>
+                                <input type="radio" id="star3" name="rating" value="3" class="sr-only">
+                                <label for="star3" class="text-2xl cursor-pointer text-gray-300 hover:text-secondary transition-colors" aria-label="3 estrelas">
+                                    <i class="fas fa-star"></i>
+                                </label>
+                                <input type="radio" id="star2" name="rating" value="4" class="sr-only">
+                                <label for="star2" class="text-2xl cursor-pointer text-gray-300 hover:text-secondary transition-colors" aria-label="4 estrelas">
+                                    <i class="fas fa-star"></i>
+                                </label>
+                                <input type="radio" id="star1" name="rating" value="5" class="sr-only">
+                                <label for="star1" class="text-2xl cursor-pointer text-gray-300 hover:text-secondary transition-colors" aria-label="5 estrela">
+                                    <i class="fas fa-star"></i>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="review_comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comentário</label>
+                            <textarea 
+                                id="review_comment" 
+                                rows="4" 
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all dark:bg-gray-700 dark:text-white"  
+                                placeholder="Descreva sua experiência..."
+                                required
+                            ></textarea>
+                        </div>
+                        
+                        <button 
+                            type="submit"  
+                            class="w-full bg-secondary text-white py-3 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition-all focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-opacity-50"
+                        >
+                            Enviar Avaliação
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        </main>
+
+    <footer class="bg-primary dark:bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8"> 
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-paw text-secondary text-2xl mr-3"></i>
+                        <span class="text-2xl font-bold">Mundo Pet</span> 
+                    </div>
+                    <p class="text-white text-opacity-80">
+                        Especialistas em banho e tosa há mais de 10 anos. Cuidamos do seu pet com amor e profissionalismo. 
+                    </p>
+                    <div class="flex space-x-4"> 
+                        <a href="https://www.petz.com.br/" class="text-white hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded p-2" aria-label="Facebook">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="https://www.petz.com.br/" class="text-white hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded p-2" aria-label="Instagram">
+                            <i class="fab fa-instagram text-xl"></i> 
+                        </a>
+                        <a href="https://www.petz.com.br/" class="text-white hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded p-2" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp text-xl"></i> 
+                        </a>
+                    </div>
+                </div>
+
+                <div> 
+                    <h3 class="text-lg font-semibold mb-4">Links Rápidos</h3>
+                    <ul class="space-y-2"> 
+                        <li><a href="#servicos" class="text-white text-opacity-80 hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-1">Serviços</a></li>
+                        <li><a href="#tamanhos" class="text-white text-opacity-80 hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-1">Tamanhos</a></li>
+                        <li><a href="#pelos" class="text-white text-opacity-80 hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-1">Tipos de Pelo</a></li> 
+                        <li><a href="#avaliacoes" class="text-white text-opacity-80 hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-1">Avaliações</a></li>
+                        <li><a href="#agendamento" class="text-white text-opacity-80 hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-1">Agendamento</a></li>
+                        <li><a href="#deixe-sua-avaliacao" class="text-white text-opacity-80 hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary rounded px-1">Deixe Sua Avaliação</a></li>
+                    </ul>
+                </div>
+
+                <div> 
+                    <h3 class="text-lg font-semibold mb-4">Contato</h3>
+                    <div class="space-y-2 text-white text-opacity-80">
+                        <p class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-secondary mr-2"></i> 
+                            Rua dos Animais, 123
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone text-secondary mr-2"></i> 
+                            (11) 9999-9999
+                        </p>
+                        <p class="flex items-center"> 
+                            <i class="fas fa-envelope text-secondary mr-2"></i>
+                            banho@mundopet.com.br
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 mt-8 pt-8 text-center text-white text-opacity-60">
+                <p>&copy; 2024 Mundo Pet Banho e Tosa. Todos os direitos reservados.</p> 
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+            const darkModeIcon = document.getElementById('dark-mode-icon');
+            const darkModeText = document.getElementById('dark-mode-text');
+
+            const isDarkMode = localStorage.getItem('dark-mode') === 'true' || 
+                                (!localStorage.getItem('dark-mode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+            if (isDarkMode) {
+                body.classList.add('dark');
+                updateDarkModeButton(true);
+            } else if (localStorage.getItem('dark-mode') === 'false') {
+                 body.classList.remove('dark');
+                 updateDarkModeButton(false);
+            } else {
+                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    updateDarkModeButton(true);
+                 } else {
+                    updateDarkModeButton(false);
+                 }
+            }
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark');
+                const isCurrentlyDark = body.classList.contains('dark');
+                localStorage.setItem('dark-mode', isCurrentlyDark);
+                updateDarkModeButton(isCurrentlyDark);
+            });
+            
+            function updateDarkModeButton(isDark) {
+                if (isDark) {
+                    darkModeIcon.classList.remove('fa-moon');
+                    darkModeIcon.classList.add('fa-sun');
+                    darkModeText.textContent = 'Claro';
+                    darkModeToggle.setAttribute('aria-label', 'Alternar para modo claro');
+                } else {
+                    darkModeIcon.classList.remove('fa-sun');
+                    darkModeIcon.classList.add('fa-moon');
+                    darkModeText.textContent = 'Escuro';
+                    darkModeToggle.setAttribute('aria-label', 'Alternar para modo escuro');
+                }
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const starLabels = document.querySelectorAll('#star-rating label');
+            const starInputs = document.querySelectorAll('#star-rating input[type="radio"]');
+
+            starLabels.forEach(label => {
+                label.addEventListener('mouseover', () => {
+                    const value = parseInt(label.getAttribute('for').replace('star', ''));
+                    highlightStars(value);
+                });
+
+                label.addEventListener('click', () => {
+                    const value = parseInt(label.getAttribute('for').replace('star', ''));
+                    document.getElementById(label.getAttribute('for')).checked = true;
+                });
+            });
+
+            document.getElementById('star-rating').addEventListener('mouseleave', () => {
+                const checkedStar = document.querySelector('#star-rating input[type="radio"]:checked');
+                if (checkedStar) {
+                    highlightStars(parseInt(checkedStar.value));
+                } else {
+                    highlightStars(0);
+                }
+            });
+
+            starInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    highlightStars(parseInt(input.value));
+                });
+            });
+
+            function highlightStars(value) {
+                starLabels.forEach(label => {
+                    const starValue = parseInt(label.getAttribute('for').replace('star', ''));
+                    if (starValue <= value) {
+                        label.classList.remove('text-gray-300');
+                        label.classList.add('text-secondary');
+                    } else {
+                        label.classList.remove('text-secondary');
+                        label.classList.add('text-gray-300');
+                    }
+                });
+            }
+            
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('review_name').value;
+                const rating = document.querySelector('input[name="rating"]:checked');
+                const comment = document.getElementById('review_comment').value;
+
+                if (name && rating && comment) {
+                    alert(`Obrigado, ${name}! Sua avaliação (${rating.value} estrelas) foi enviada com sucesso! (Simulação de envio)`);
+                    reviewForm.reset();
+                    highlightStars(0);
+                } else {
+                    alert('Por favor, preencha todos os campos da avaliação.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
